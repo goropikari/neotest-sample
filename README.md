@@ -1,1 +1,1 @@
-# template plugin
+# neotest-sample

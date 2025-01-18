@@ -48,9 +48,47 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   spec = {
     {
-      'goropikari/plugin-template.nvim',
+      'nvim-neotest/neotest',
+      dependencies = {
+        'nvim-neotest/nvim-nio',
+        'nvim-lua/plenary.nvim',
+        'antoinemadec/FixCursorHold.nvim',
+        'nvim-treesitter/nvim-treesitter',
+      },
+      config = function()
+        require('neotest').setup({
+          adapters = {
+            require('neotest-sample'),
+          },
+        })
+      end,
+    },
+    {
+      'goropikari/neotest-sample',
       dev = true,
-      opts = {},
+    },
+    {
+
+      'nvim-treesitter/nvim-treesitter',
+      version = '*',
+      event = 'VeryLazy',
+      dependencies = {
+        'nvim-treesitter/nvim-treesitter-textobjects',
+      },
+      build = ':TSUpdate',
+      config = function()
+        vim.defer_fn(function()
+          require('nvim-treesitter.configs').setup({
+            ensure_installed = { 'lua' },
+            auto_install = true,
+            sync_install = false,
+            ignore_install = {},
+            modules = {},
+            highlight = { enable = true },
+            indent = { enable = true },
+          })
+        end, 0)
+      end,
     },
   },
   dev = {
